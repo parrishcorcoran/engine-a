@@ -73,6 +73,8 @@ laminar tokens exit early; boundary tokens do not.
 - `docs/engine_a_physics_map.md`: the 7D Engine A map.
 - `docs/invariant_test_doctrine.md`: invariants that prevent looping.
 - `docs/inclusive_branch_tree.md`: pass/fail routing for host runs.
+- `docs/host_runbook.md`: detailed host execution sequence.
+- `docs/result_schema.md`: standard result format and labels.
 - `docs/test_ladder.md`: tests from cheapest to hardest.
 - `docs/gemini_cli_prompt.md`: handoff prompt for the Z8.
 - `measurements/synthetic_engine_a.py`: stdlib-only toy simulator.

@@ -29,8 +29,9 @@ Runtime: minutes.
 ```bash
 python measurements/hf_engine_a_smoke.py \
   --model /path/to/model \
-  --exit_layer 16 \
-  --threshold 0.90 \
+  --exit_layers 16 \
+  --thresholds 0.90 \
+  --gates confidence,margin,stability,fused \
   --max_tokens 512
 ```
 
@@ -54,8 +55,9 @@ Runtime: minutes to tens of minutes.
 for layer in 8 12 16 20 24; do
   python measurements/hf_engine_a_smoke.py \
     --model /path/to/model \
-    --exit_layer "$layer" \
-    --threshold 0.90 \
+    --exit_layers "$layer" \
+    --thresholds 0.90 \
+    --gates confidence,margin,stability,fused \
     --max_tokens 512
 done
 ```

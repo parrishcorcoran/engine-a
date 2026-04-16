@@ -15,6 +15,8 @@ Read:
 - docs/engine_a_physics_map.md
 - docs/invariant_test_doctrine.md
 - docs/inclusive_branch_tree.md
+- docs/host_runbook.md
+- docs/result_schema.md
 - docs/test_ladder.md
 - docs/fault_model.md
 - measurements/hf_engine_a_smoke.py
@@ -32,10 +34,10 @@ Before host-model tests:
 - Confirm all invariants pass and the branch grid has no ambiguous bucket.
 
 First host tests:
-1. Run the HF smoke harness at layer 16, threshold 0.90.
+1. Run the HF smoke harness at layer 16, threshold 0.90 with all gates.
 2. Sweep exit layers: 8, 12, 16, 20, 24.
 3. Sweep thresholds: 0.80, 0.85, 0.90, 0.95, 0.98.
-4. Compare confidence-only vs guarded gates if false plateaus appear.
+4. Compare confidence-only, margin, stability, and fused gates.
 5. Only then test long-context drift.
 
 Metrics to watch:
