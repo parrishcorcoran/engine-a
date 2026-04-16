@@ -9,12 +9,14 @@ Runtime: seconds.
 
 ```bash
 python measurements/synthetic_engine_a.py --seeds 100
+python measurements/free_signal_budget.py --seeds 100
 python measurements/simulate_host_branches.py --mode all
 ```
 
 Pass:
 
 - All Engine A invariants pass.
+- The cheap/free signal budget passes.
 - Branch fixtures pass.
 - Grid has no `ambiguous` bucket.
 

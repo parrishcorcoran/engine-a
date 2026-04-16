@@ -39,6 +39,8 @@ command:
 | `skip_gain` | Logical layer-skip fraction | Higher if fidelity holds |
 | `avg_score` | Gate score average | Diagnostic |
 | `avg_entropy` | Mid-layer entropy average | Lower for laminar prompts |
+| `engine_b_tension` | Optional memory ambiguity/veto signal | Lower is safer for exit |
+| `engine_b_veto_rate` | Optional fraction of exits blocked by memory tension | Diagnostic |
 
 ## Diagnosis Labels
 

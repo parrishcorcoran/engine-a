@@ -15,6 +15,8 @@ Read:
 - docs/engine_a_physics_map.md
 - docs/invariant_test_doctrine.md
 - docs/inclusive_branch_tree.md
+- docs/model_targets.md
+- docs/engine_ab_coupling.md
 - docs/host_runbook.md
 - docs/result_schema.md
 - docs/test_ladder.md
@@ -30,11 +32,13 @@ Work style:
 
 Before host-model tests:
 - Run `python measurements/synthetic_engine_a.py --seeds 100`.
+- Run `python measurements/free_signal_budget.py --seeds 100`.
 - Run `python measurements/simulate_host_branches.py --mode all`.
-- Confirm all invariants pass and the branch grid has no ambiguous bucket.
+- Confirm all invariants pass, Engine B veto improves false exits, and the branch
+  grid has no ambiguous bucket.
 
 First host tests:
-1. Run the HF smoke harness at layer 16, threshold 0.90 with all gates.
+1. For Qwen3-8B, run the HF smoke harness at layer 18, threshold 0.90 with all gates.
 2. Sweep exit layers: 8, 12, 16, 20, 24.
 3. Sweep thresholds: 0.80, 0.85, 0.90, 0.95, 0.98.
 4. Compare confidence-only, margin, stability, and fused gates.
@@ -56,4 +60,6 @@ Interpretation:
 - If fidelity is high but exits are near zero, threshold is too strict.
 - If logical skip works but wall-clock fails, feature extraction is the problem,
   not the Engine A signal.
+- If confidence-only false plateaus remain, test an Engine B memory-tension veto
+  before concluding Engine A is saturated.
 ```

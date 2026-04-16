@@ -52,8 +52,9 @@ Only after those pass should the host run the Hugging Face smoke harness:
 ```bash
 python measurements/hf_engine_a_smoke.py \
   --model /path/to/model \
-  --exit_layer 16 \
-  --threshold 0.90
+  --exit_layers 16 \
+  --thresholds 0.90 \
+  --gates confidence,margin,stability,fused
 ```
 
 ## Success Metrics
@@ -73,10 +74,13 @@ laminar tokens exit early; boundary tokens do not.
 - `docs/engine_a_physics_map.md`: the 7D Engine A map.
 - `docs/invariant_test_doctrine.md`: invariants that prevent looping.
 - `docs/inclusive_branch_tree.md`: pass/fail routing for host runs.
+- `docs/model_targets.md`: Qwen/Qwen-like host model guidance.
+- `docs/engine_ab_coupling.md`: why Engine A may need Engine B veto signals.
 - `docs/host_runbook.md`: detailed host execution sequence.
 - `docs/result_schema.md`: standard result format and labels.
 - `docs/test_ladder.md`: tests from cheapest to hardest.
 - `docs/gemini_cli_prompt.md`: handoff prompt for the Z8.
 - `measurements/synthetic_engine_a.py`: stdlib-only toy simulator.
+- `measurements/free_signal_budget.py`: cheapest/free signal budget simulator.
 - `measurements/simulate_host_branches.py`: branch tree fixture/grid runner.
 - `measurements/hf_engine_a_smoke.py`: real-model logical early-exit harness.

@@ -10,6 +10,7 @@ Run from the repo root:
 
 ```bash
 python measurements/synthetic_engine_a.py --seeds 100
+python measurements/free_signal_budget.py --seeds 100
 python measurements/simulate_host_branches.py --mode all
 python -m py_compile measurements/*.py
 ```
@@ -17,6 +18,7 @@ python -m py_compile measurements/*.py
 Pass:
 
 - All five synthetic invariants pass.
+- The free signal budget confirms Engine B veto reduces false exits.
 - Branch fixtures pass.
 - Branch grid has no `ambiguous` bucket.
 - Python files compile.
@@ -33,6 +35,18 @@ Start with one layer and one threshold:
 python measurements/hf_engine_a_smoke.py \
   --model /path/to/model \
   --exit_layers 16 \
+  --thresholds 0.90 \
+  --gates confidence,margin,stability,fused \
+  --max_prompts 8
+```
+
+For Qwen3-8B specifically, start at layer 18 because the model card lists 36
+layers:
+
+```bash
+python measurements/hf_engine_a_smoke.py \
+  --model Qwen/Qwen3-8B \
+  --exit_layers 18 \
   --thresholds 0.90 \
   --gates confidence,margin,stability,fused \
   --max_prompts 8
