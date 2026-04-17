@@ -67,6 +67,17 @@ That often trades capacity for cross-socket latency.
 
 ## First Qwen3-8B CPU Run
 
+Before loading the model, run the physics-informed planner:
+
+```bash
+python measurements/physics_monte_carlo.py \
+  --models qwen3,qwen2 \
+  --dtypes float32,bfloat16,int8 \
+  --engine_b_veto
+```
+
+Then run the first real smoke:
+
 ```bash
 python measurements/hf_engine_a_smoke.py \
   --model Qwen/Qwen3-8B \

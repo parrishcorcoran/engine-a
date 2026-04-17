@@ -6,6 +6,12 @@ from __future__ import annotations
 import unittest
 
 from measurements.free_signal_budget import correlation_probe, run_mode, validate
+from measurements.physics_monte_carlo import (
+    HardwareSpec,
+    MODEL_SPECS,
+    estimate_memory_gb,
+    run_monte_carlo,
+)
 from measurements.simulate_host_branches import run_grid
 from measurements.synthetic_engine_a import run_invariants
 
@@ -42,6 +48,39 @@ class EngineASimulationTests(unittest.TestCase):
         ]
         checks = validate(results, correlation_probe(seeds=20, tokens=256))
         self.assertTrue(all(checks.values()), checks)
+
+    def test_physics_monte_carlo_ranks_qwen_host_target(self) -> None:
+        qwen = [model for model in MODEL_SPECS if model.name == "Qwen/Qwen3-8B"]
+        peak_gb = estimate_memory_gb(
+            model=qwen[0],
+            dtype="float32",
+            context_tokens=2048,
+            eval_tail_tokens=128,
+            exit_layers=1,
+        )
+        self.assertLess(peak_gb, 350.0)
+        rows = run_monte_carlo(
+            models=qwen,
+            dtypes=["float32"],
+            hardware=HardwareSpec(
+                ram_per_socket_gb=350.0,
+                sockets=2,
+                mem_bandwidth_gbs=110.0,
+                compute_tflops=2.0,
+                numa_penalty=1.7,
+            ),
+            context_tokens=2048,
+            eval_tail_tokens=128,
+            prompts=2,
+            exit_layers=1,
+            target_fidelity=0.94,
+            min_exit_rate=0.05,
+            engine_b_veto=True,
+            samples=50,
+            seed=11,
+        )
+        self.assertGreater(rows[0][2]["fit_rate"], 0.99)
+        self.assertGreater(rows[0][2]["success_rate"], 0.50)
 
 
 if __name__ == "__main__":

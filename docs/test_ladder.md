@@ -11,6 +11,7 @@ Runtime: seconds.
 python measurements/synthetic_engine_a.py --seeds 100
 python measurements/free_signal_budget.py --seeds 100
 python measurements/simulate_host_branches.py --mode all
+python measurements/physics_monte_carlo.py --models qwen3,qwen2 --engine_b_veto
 ```
 
 Pass:
@@ -19,6 +20,7 @@ Pass:
 - The cheap/free signal budget passes.
 - Branch fixtures pass.
 - Grid has no `ambiguous` bucket.
+- The model/runtime Monte Carlo gives a plausible first host target.
 
 Fail:
 

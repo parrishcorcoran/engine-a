@@ -16,6 +16,7 @@ Run from the repo root:
 python measurements/synthetic_engine_a.py --seeds 100
 python measurements/free_signal_budget.py --seeds 100
 python measurements/simulate_host_branches.py --mode all
+python measurements/physics_monte_carlo.py --models qwen3,qwen2 --engine_b_veto
 python -m py_compile measurements/*.py
 ```
 
@@ -25,6 +26,7 @@ Pass:
 - The free signal budget confirms Engine B veto reduces false exits.
 - Branch fixtures pass.
 - Branch grid has no `ambiguous` bucket.
+- The Monte Carlo ranks at least one Qwen-class full-precision run as fitting.
 - Python files compile.
 
 Fail:

@@ -18,6 +18,7 @@ Read:
 - docs/model_targets.md
 - docs/engine_ab_coupling.md
 - docs/high_ram_host_profile.md
+- docs/physics_monte_carlo.md
 - docs/host_runbook.md
 - docs/result_schema.md
 - docs/test_ladder.md
@@ -35,6 +36,7 @@ Before host-model tests:
 - Run `python measurements/synthetic_engine_a.py --seeds 100`.
 - Run `python measurements/free_signal_budget.py --seeds 100`.
 - Run `python measurements/simulate_host_branches.py --mode all`.
+- Run `python measurements/physics_monte_carlo.py --models qwen3,qwen2 --engine_b_veto`.
 - Confirm all invariants pass, Engine B veto improves false exits, and the branch
   grid has no ambiguous bucket.
 
