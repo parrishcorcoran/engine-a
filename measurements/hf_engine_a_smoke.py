@@ -118,6 +118,7 @@ def build_prompt_cache(
     exit_layers: Sequence[int],
     max_tokens: int,
     top_k: int,
+    eval_tail_tokens: int | None,
 ) -> Tuple[List[PromptCache], int]:
     caches: List[PromptCache] = []
     needed_layers = set(exit_layers)
@@ -136,10 +137,14 @@ def build_prompt_cache(
                 raise ValueError(f"exit layer {layer} is outside valid range [1, {num_layers}]")
 
         final_logits = out.logits[:, :-1, :]
+        if eval_tail_tokens is not None and eval_tail_tokens > 0:
+            final_logits = final_logits[:, -eval_tail_tokens:, :]
         final_stats = top_stats(final_logits, top_k=top_k)
         layer_stats: Dict[int, Dict[str, torch.Tensor]] = {}
         for layer in sorted(needed_layers):
             hidden = model_norm(model, out.hidden_states[layer])[:, :-1, :]
+            if eval_tail_tokens is not None and eval_tail_tokens > 0:
+                hidden = hidden[:, -eval_tail_tokens:, :]
             logits = model.lm_head(hidden)
             layer_stats[layer] = top_stats(logits, top_k=top_k)
         caches.append(PromptCache(prompt=prompt_text, final_stats=final_stats, layer_stats=layer_stats))
@@ -316,6 +321,11 @@ def main() -> None:
     parser.add_argument("--entropy_threshold", type=float, default=2.50)
     parser.add_argument("--top_k", type=int, default=5)
     parser.add_argument("--max_tokens", type=int, default=512)
+    parser.add_argument(
+        "--eval_tail_tokens",
+        type=int,
+        help="Only score the last N next-token positions after the full forward pass.",
+    )
     parser.add_argument("--prompt_file")
     parser.add_argument("--max_prompts", type=int)
     parser.add_argument("--device", default="auto")
@@ -358,6 +368,7 @@ def main() -> None:
         exit_layers=exit_layers,
         max_tokens=args.max_tokens,
         top_k=args.top_k,
+        eval_tail_tokens=args.eval_tail_tokens,
     )
 
     all_rows: List[Dict[str, float]] = []
@@ -367,6 +378,8 @@ def main() -> None:
     print(f"prompts: {len(prompts)}")
     print(f"exit_layers: {exit_layers}")
     print(f"thresholds: {thresholds}")
+    if args.eval_tail_tokens:
+        print(f"eval_tail_tokens: {args.eval_tail_tokens}")
     print()
 
     for gate in gates:

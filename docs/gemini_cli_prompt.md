@@ -17,6 +17,7 @@ Read:
 - docs/inclusive_branch_tree.md
 - docs/model_targets.md
 - docs/engine_ab_coupling.md
+- docs/high_ram_host_profile.md
 - docs/host_runbook.md
 - docs/result_schema.md
 - docs/test_ladder.md
@@ -39,6 +40,7 @@ Before host-model tests:
 
 First host tests:
 1. For Qwen3-8B, run the HF smoke harness at layer 18, threshold 0.90 with all gates.
+   On the high-RAM CPU host, start with `--device cpu --dtype float32 --eval_tail_tokens 128`.
 2. Sweep exit layers: 8, 12, 16, 20, 24.
 3. Sweep thresholds: 0.80, 0.85, 0.90, 0.95, 0.98.
 4. Compare confidence-only, margin, stability, and fused gates.

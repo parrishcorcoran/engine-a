@@ -76,6 +76,7 @@ laminar tokens exit early; boundary tokens do not.
 - `docs/inclusive_branch_tree.md`: pass/fail routing for host runs.
 - `docs/model_targets.md`: Qwen/Qwen-like host model guidance.
 - `docs/engine_ab_coupling.md`: why Engine A may need Engine B veto signals.
+- `docs/high_ram_host_profile.md`: dual-socket, high-RAM host guidance.
 - `docs/host_runbook.md`: detailed host execution sequence.
 - `docs/result_schema.md`: standard result format and labels.
 - `docs/test_ladder.md`: tests from cheapest to hardest.

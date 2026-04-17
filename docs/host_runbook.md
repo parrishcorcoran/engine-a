@@ -4,6 +4,10 @@ This is the detailed run sequence for the HP Z8 G4 or any high-RAM host.
 
 The rule: do not optimize wall-clock until logical early exit is calibrated.
 
+If the host has hundreds of GB per CPU socket, also read
+`docs/high_ram_host_profile.md` before launching real-model sweeps. RAM capacity
+is not the bottleneck; NUMA traffic, bandwidth, and full-vocabulary logits are.
+
 ## 0. Local Preflight
 
 Run from the repo root:
@@ -46,9 +50,12 @@ layers:
 ```bash
 python measurements/hf_engine_a_smoke.py \
   --model Qwen/Qwen3-8B \
+  --device cpu \
+  --dtype float32 \
   --exit_layers 18 \
   --thresholds 0.90 \
   --gates confidence,margin,stability,fused \
+  --eval_tail_tokens 128 \
   --max_prompts 8
 ```
 
